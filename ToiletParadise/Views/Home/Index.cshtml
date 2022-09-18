@@ -1,0 +1,89 @@
+﻿@model ToiletParadise.Models.Toilet
+@{
+
+    ViewData["Title"] = "Home Page";
+
+    void AccordionItem(Toilet t)
+    {
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="@("flush-heading-" + @t.Id)">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="@("#flush-collapse-" + @t.Id)" aria-expanded="false" aria-controls="@("flush-collapse-" + @t.Id)">
+            @t.Name
+            </button>
+        </h2>
+        <div id="@("flush-collapse-" + @t.Id)" class="accordion-collapse collapse" aria-labelledby="@("flush-heading-" + @t.Id)" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">Kódy: </div>
+        </div>
+    </div>
+    }
+}
+
+
+        <div class="col-3">
+
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+            @{
+                Toilets toilets = new Toilets();
+                toilets.Load();
+            }
+
+            @foreach (var item in toilets.toilets)
+            {
+                AccordionItem(item);
+            }
+            
+                
+            </div>
+        </div>
+        <div class="col-9">
+            <div id="map"></div>
+        </div>
+
+
+        
+
+        <div class="modal fade" id="addMarker" tabindex="-1" aria-labelledby="addMarkerLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Přidat záchod</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+              </div>
+              <form asp-action="SaveToilet" method="post">
+                  <div class="modal-body">
+
+                        <div class="row">
+                            <div class="mb-3">
+                              <label for="ToiletName" class="form-label">Název záchodu</label>
+                              <input asp-for="Name" type="text" class="form-control" id="ToiletName" placeholder="Záchod v KFC">
+                            </div>
+                            <div class="mb-3">
+                              <label for="ToiletCost" class="form-label">Cena záchodu (Kč)</label>
+                              <input asp-for="Cost" type="number" class="form-control" id="ToiletCost" placeholder="10.00">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="mb-3">
+                              <label for="ToiletPosX" class="form-label">PosX</label>
+                              <input asp-for="PosX" type="number" class="form-control" id="ToiletPosX" placeholder="15.152678" disabled>
+                            </div>
+                            <div class="mb-3">
+                              <label for="ToiletPosY" class="form-label">PosY</label>
+                              <input asp-for="PosY" type="number" class="form-control" id="ToiletPosY" placeholder="10.624859" disabled>
+                            </div>
+                        </div>
+                  
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>
+                    <input type="submit" class="btn btn-primary" value="Uložit"></input>
+                  </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      
+       
+
